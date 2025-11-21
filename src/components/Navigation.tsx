@@ -1,8 +1,8 @@
-import { Search, FileCheck, Home } from 'lucide-react';
+import { Search, FileCheck, Home, Shield } from 'lucide-react';
 
 interface NavigationProps {
-  currentPage: 'verify' | 'issue' | 'home';
-  onNavigate: (page: 'verify' | 'issue' | 'home') => void;
+  currentPage: 'verify' | 'issue' | 'home' | 'admin' | 'admin-dashboard';
+  onNavigate: (page: 'verify' | 'issue' | 'home' | 'admin' | 'admin-dashboard') => void;
 }
 
 export const Navigation = ({ currentPage, onNavigate }: NavigationProps) => {
@@ -10,6 +10,7 @@ export const Navigation = ({ currentPage, onNavigate }: NavigationProps) => {
     { id: 'home' as const, label: 'Home', icon: Home },
     { id: 'verify' as const, label: 'Verify', icon: Search },
     { id: 'issue' as const, label: 'Issue', icon: FileCheck },
+    { id: 'admin' as const, label: 'Admin', icon: Shield },
   ];
 
   return (

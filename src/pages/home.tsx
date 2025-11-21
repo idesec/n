@@ -2,7 +2,7 @@ import { Shield, Search, FileCheck, Lock } from 'lucide-react';
 import { Card } from '../components/Card';
 
 interface HomePageProps {
-  onNavigate: (page: 'verify' | 'issue') => void;
+  onNavigate: (page: 'verify' | 'issue' | 'admin') => void;
 }
 
 export const HomePage = ({ onNavigate }: HomePageProps) => {

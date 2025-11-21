@@ -4,11 +4,15 @@ import { Navigation } from './components/Navigation';
 import { HomePage } from './pages/home';
 import { VerifyPage } from './pages/verify';
 import { IssuePage } from './pages/issue';
+import { AdminLoginPage } from './pages/admin-login';
+import { AdminDashboardPage } from './pages/admin-dashboard';
+import { useAdmin } from './contexts/AdminContext';
 
-type Page = 'home' | 'verify' | 'issue';
+type Page = 'home' | 'verify' | 'issue' | 'admin' | 'admin-dashboard';
 
 function App() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
+  const { isAuthenticated } = useAdmin();
 
   const renderPage = () => {
     switch (currentPage) {
@@ -18,10 +22,31 @@ function App() {
         return <VerifyPage />;
       case 'issue':
         return <IssuePage />;
+      case 'admin':
+        if (isAuthenticated) {
+          setCurrentPage('admin-dashboard');
+          return null;
+        }
+        return <AdminLoginPage onLoginSuccess={() => setCurrentPage('admin-dashboard')} />;
+      case 'admin-dashboard':
+        if (!isAuthenticated) {
+          setCurrentPage('admin');
+          return null;
+        }
+        return (
+          <AdminDashboardPage
+            onNavigateToIssue={() => setCurrentPage('issue')}
+            onLogout={() => setCurrentPage('home')}
+          />
+        );
       default:
         return <HomePage onNavigate={setCurrentPage} />;
     }
   };
+
+  if (currentPage === 'admin' || currentPage === 'admin-dashboard') {
+    return renderPage();
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black">
